@@ -20,7 +20,10 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "FusionPayments",
-            dependencies: []),
+            dependencies: [
+                            .target(name: "FusionPayments_Common"),
+                            .target(name: "FusionPayments_Apple", condition: .when(platforms: [.iOS, .macOS])),
+                        ]),
         .testTarget(
             name: "FusionPaymentsTests",
             dependencies: ["FusionPayments"]),

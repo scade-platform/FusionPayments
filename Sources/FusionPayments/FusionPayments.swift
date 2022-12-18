@@ -1,6 +1,7 @@
-public struct FusionPayments {
-    public private(set) var text = "Hello, World!"
+import Foundation
 
-    public init() {
-    }
-}
+@_exported import FusionPayments_Common
+
+#if canImport(FusionPayments_Apple)
+@_exported import FusionPayments_Apple
+#endif
