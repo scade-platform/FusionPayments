@@ -7,17 +7,25 @@
 
 import Foundation
 import PassKit
+import FusionPayments_Common
 
-public class FusionPaymentsManager: FusionPaymentsManagerProtocol {
+@available(macOS 11.0, *)
+public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
+    public required init(paymentRequest: FusionPayments_Common.PaymentRequest) {
+        <#code#>
+    }
+    
     
     var completionHandler: ((Int) -> Void)?
+    
+    
     
     public func intiatePayment( completion: @escaping (Int) -> Void ) {
        
         
-        let paymentItem = PKPaymentSummaryItem.init(
-              label: shoe.name, amount: NSDecimalNumber(value: shoe.price))
-
+            let paymentItem = PKPaymentSummaryItem.init(
+                label: "lable", amount: NSDecimalNumber(value: 33))
+       
             let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
 
             if PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) {
@@ -35,9 +43,11 @@ public class FusionPaymentsManager: FusionPaymentsManagerProtocol {
                 return
               }
               paymentVC.delegate = self
-              UIApplication.shared.delegate?.window??.rootViewController?.present(
+                #if os(iOS)
+                UIApplication.shared.delegate?.window??.rootViewController?.present(
                 paymentVC, animated: true, completion: nil)
-
+                #endif
+                
             } else {
               // displayDefaultAlert(title: "Error", message: "Unable to make Apple Pay transaction.")
               print("error: unable to make apple pay transaction")
@@ -50,20 +60,24 @@ public class FusionPaymentsManager: FusionPaymentsManagerProtocol {
 
 }
 
-extension FusionPaymentsManager: PKPaymentAuthorizationViewControllerDelegate {
-    func paymentAuthorizationViewControllerDidFinish(
+@available(macOS 11.0, *)
+extension FusionPaymentsManager:   PKPaymentAuthorizationViewControllerDelegate {
+    public func paymentAuthorizationViewControllerDidFinish(
         _ controller: PKPaymentAuthorizationViewController
       ) {
         //controller.dismiss(animated: true, completion: nil)
         //dismiss(animated: true, completion: nil)
         print("payment finished")
-        UIApplication.shared.delegate?.window??.rootViewController?.dismiss(
-          animated: true, completion: nil)
+#if os(iOS)
+          UIApplication.shared.delegate?.window??.rootViewController?.dismiss(
+            animated: true, completion: nil)
 
-          completionHandler?(0)
+            completionHandler?(0)
+
+          #endif
       }
     
-      func paymentAuthorizationViewController(
+      public func paymentAuthorizationViewController(
         _ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment,
         handler completion: @escaping (PKPaymentAuthorizationResult) -> Void
       ) {

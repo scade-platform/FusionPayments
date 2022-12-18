@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "FusionPayments",
+    platforms: [.macOS(.v10_14), .iOS(.v12)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -24,6 +25,15 @@ let package = Package(
                             .target(name: "FusionPayments_Common"),
                             .target(name: "FusionPayments_Apple", condition: .when(platforms: [.iOS, .macOS])),
                         ]),
+        .target(
+                    name: "FusionPayments_Common"
+                ),
+                .target(
+                    name: "FusionPayments_Apple",
+                    dependencies: [
+                        .target(name: "FusionPayments_Common"),
+                    ]
+                ),
         .testTarget(
             name: "FusionPaymentsTests",
             dependencies: ["FusionPayments"]),

@@ -7,8 +7,12 @@
 
 import Foundation
 
-open class PaymentRequest : NSObject {
- 
+public class PaymentRequest : NSObject {
+    
+    public init(){
+        
+    }
+    
     // The payment networks and platforms supported for in-app payment
     @available(iOS 10.0, *)
     open class func availableNetworks() -> [PaymentNetwork]
@@ -25,16 +29,6 @@ open class PaymentRequest : NSObject {
     // The payment networks supported by the merchant, for example @[ PKPaymentNetworkVisa,
     // PKPaymentNetworkMasterCard ].  This property constrains payment cards that may fund the payment.
     open var supportedNetworks: [PaymentNetwork]
-
-    // Indicates whether the merchant supports coupon code entry and validation. Defaults to NO.
-    @available(iOS 15.0, *)
-    open var supportsCouponCode: Bool
-
-    
-    // An optional coupon code that is valid and has been applied to the payment request already.
-    @available(iOS 15.0, *)
-    open var couponCode: String?
-
     
     // Array of PKPaymentSummaryItem objects which should be presented to the user.
     // The last item should be the total you wish to charge, and should not be pending
@@ -48,5 +42,7 @@ open class PaymentRequest : NSObject {
     // issued in the supported countries.
     @available(iOS 11.0, *)
     open var supportedCountries: Set<String>?
-    
-}
+        
+    }
+ 
+
