@@ -10,7 +10,7 @@ import Foundation
 @available(iOS 11.0, *)
 public class PaymentRequest : NSObject {
     
-    public init(merchantIdentifier: String, countryCode:String, currencyCode: String, supportedNetworks: [PaymentNetwork], paymentSummaryItem: PaymentSummaryItem, supportedCountries: Set<String>){
+    public init(merchantIdentifier: String, countryCode:String, currencyCode: String, supportedNetworks: [PaymentNetwork], paymentNetworks: [PaymentNetwork], paymentSummaryItem: PaymentSummaryItem, supportedCountries: Set<String>){
         self.merchantIdentifier = merchantIdentifier
         self.countryCode = countryCode
         self.currencyCode = currencyCode

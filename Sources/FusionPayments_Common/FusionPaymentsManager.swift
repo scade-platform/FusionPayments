@@ -27,7 +27,9 @@ public enum PaymentError {
     
     case SHIPPING_CONTACT_INSERVICEABLE_ERROR
     
-    case NETWORK_ERROR
+    case AUTHORIZATION_ERROR
+    
+    case UNSUPPORTED_PAYMENT_NETWORK
     
     case UNKNOWN_ERROR
     
@@ -43,8 +45,11 @@ public enum PaymentError {
                 case .SHIPPING_CONTACT_INSERVICEABLE_ERROR:
                     return "The shipping contact address is inserviceable."
                     
-                case .NETWORK_ERROR:
-                    return "Network error occurred."
+                case .AUTHORIZATION_ERROR:
+                    return "Authorization error occurred."
+                    
+                case .UNSUPPORTED_PAYMENT_NETWORK:
+                    return "The payment is not supported by the given payment networks"
                     
                 case .UNKNOWN_ERROR:
                     return "Unknown error occurred."

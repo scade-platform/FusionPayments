@@ -12,13 +12,14 @@ import FusionPayments_Common
 @available(macOS 11.0, *)
 public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
     
+    
     private var paymentRequest: PaymentRequest
     
-    required public init(paymentRequest: PaymentRequest){
+    public required init(paymentRequest: PaymentRequest){
         self.paymentRequest = paymentRequest
     }
     
-    var completionHandler: ((PaymentStatus, PaymentError?) -> Void)?
+    private var completionHandler: ((PaymentStatus, PaymentError?) -> Void)?
     
     
     
@@ -30,20 +31,21 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
         let paymentItem = PKPaymentSummaryItem(
             label: paymentLabel, amount: paymentAmount)
         
+        // cast here PaymentNetworks -> PKPaymentNetworks
         let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
         
         if PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) {
             let request = PKPaymentRequest()
-            request.currencyCode = "USD"  // 1
-            request.countryCode = "US"  // 2
-            request.merchantIdentifier = "merchant.com.vedant.fusionpayments"  // 3
+            request.currencyCode = paymentRequest.currencyCode  // 1
+            request.countryCode = paymentRequest.countryCode  // 2
+            request.merchantIdentifier = paymentRequest.merchantIdentifier//"merchant.com.vedant.fusionpayments"  // 3
             request.merchantCapabilities = PKMerchantCapability.capability3DS  // 4
             request.supportedNetworks = paymentNetworks  // 5
             request.paymentSummaryItems = [paymentItem]  // 6
             
             guard let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: request) else {
-                //   displayDefaultAlert(title: "Error", message: "Unable to present Apple Pay authorization.")
                 print("unable to present apple pay authorization: error")
+                completionHandler?(.FAILED, .AUTHORIZATION_ERROR)
                 return
             }
             paymentVC.delegate = self
@@ -55,7 +57,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
         } else {
             // displayDefaultAlert(title: "Error", message: "Unable to make Apple Pay transaction.")
             print("error: unable to make apple pay transaction")
-            completionHandler?(.SUCCESS, .UNKNOWN_ERROR)
+            completionHandler?(.FAILED, .UNSUPPORTED_PAYMENT_NETWORK)
         }
         
         completionHandler = paymentStatus
