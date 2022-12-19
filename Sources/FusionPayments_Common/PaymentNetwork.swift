@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+// Possible payment networks for Google-Pay & Apple-Pay SDK
 public enum PaymentNetwork {
     case amex
     
