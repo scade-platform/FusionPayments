@@ -35,19 +35,19 @@ public enum PaymentError {
                 switch self {
                 
                 case .BILLING_CONTACT_INVALID_ERROR:
-                    return "Biometry is not available in the device."
+                    return "Billing Contact information is invalid."
                     
                 case .SHIPPING_CONTACT_INVALID_ERROR:
-                    return "Biometry is locked because there were too many failed attempts."
+                    return "Shipping Contact information is invalid."
                     
                 case .SHIPPING_CONTACT_INSERVICEABLE_ERROR:
-                    return "The user has no enrolled biometric identities."
+                    return "The shipping contact address is inserviceable."
                     
                 case .NETWORK_ERROR:
-                    return "The device supports biometry only using a removable accessory, but the paired accessory isn’t connected."
+                    return "Network error occurred."
                     
                 case .UNKNOWN_ERROR:
-                    return "The user tapped the cancel button in the authentication dialog."
+                    return "Unknown error occurred."
                     
                 }
             }
