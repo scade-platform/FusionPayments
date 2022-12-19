@@ -11,14 +11,12 @@ import Foundation
 public class PaymentSummaryItem : NSObject {
     // A short localized description of the item, e.g. "Tax" or "Gift Card".
     open var label: String?
-
+    
     
     // Same currency as the enclosing PaymentRequest.  Negative values are permitted, for example when
-    // redeeming a coupon. An amount is always required unless the summary item's type is set to pending
     @NSCopying open var amount: NSDecimalNumber = 0.0
     
     public init(label: String, amount: NSDecimalNumber) {
-    
         self.label = label
         self.amount = amount
     }

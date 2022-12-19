@@ -22,18 +22,18 @@ let package = Package(
         .target(
             name: "FusionPayments",
             dependencies: [
-                            .target(name: "FusionPayments_Common"),
-                            .target(name: "FusionPayments_Apple", condition: .when(platforms: [.iOS, .macOS])),
-                        ]),
+                .target(name: "FusionPayments_Common"),
+                .target(name: "FusionPayments_Apple", condition: .when(platforms: [.iOS, .macOS])),
+            ]),
         .target(
-                    name: "FusionPayments_Common"
-                ),
-                .target(
-                    name: "FusionPayments_Apple",
-                    dependencies: [
-                        .target(name: "FusionPayments_Common"),
-                    ]
-                ),
+            name: "FusionPayments_Common"
+        ),
+        .target(
+            name: "FusionPayments_Apple",
+            dependencies: [
+                .target(name: "FusionPayments_Common"),
+            ]
+        ),
         .testTarget(
             name: "FusionPaymentsTests",
             dependencies: ["FusionPayments"]),

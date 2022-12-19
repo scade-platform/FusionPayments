@@ -6,12 +6,10 @@
 //
 
 import Foundation
-import PassKit
 
 public protocol FusionPaymentsManagerProtocol  {
     
-    
-    func intiatePayment( completion: @escaping (Int) -> Void )
+    func intiatePayment( paymentRequest: PaymentRequest, completion: @escaping (Int) -> Void )
 }
 
 
