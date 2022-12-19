@@ -10,7 +10,6 @@ import PassKit
 
 public protocol FusionPaymentsManagerProtocol  {
     
-    init(paymentRequest: PaymentRequest)
     
     func intiatePayment( completion: @escaping (Int) -> Void )
 }

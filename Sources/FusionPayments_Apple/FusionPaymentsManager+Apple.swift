@@ -11,9 +11,7 @@ import FusionPayments_Common
 
 @available(macOS 11.0, *)
 public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
-    public required init(paymentRequest: FusionPayments_Common.PaymentRequest) {
-        <#code#>
-    }
+    
     
     
     var completionHandler: ((Int) -> Void)?
