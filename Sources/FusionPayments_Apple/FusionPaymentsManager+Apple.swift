@@ -21,9 +21,9 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
     
     private var completionHandler: ((PaymentStatus, PaymentError?) -> Void)?
     
+    private var paymentSheetViewState: ((PaymentSheetViewState) -> Void)?
     
-    
-    public func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus, PaymentError?) -> Void ) {
+    public func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus, PaymentError?) -> Void, paymentSheetViewState: @escaping (PaymentSheetViewState) -> Void ) {
         
         let paymentLabel:String = paymentRequest.paymentSummaryItem.label!
         let paymentAmount:NSDecimalNumber = paymentRequest.paymentSummaryItem.amount
@@ -52,6 +52,8 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
 #if os(iOS)
             UIApplication.shared.delegate?.window??.rootViewController?.present(
                 paymentVC, animated: true, completion: nil)
+            
+            paymentSheetViewState(.PAYMENT_SHEET_OPENED)
 #endif
             
         } else {
@@ -61,6 +63,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
         }
         
         completionHandler = paymentStatus
+        self.paymentSheetViewState = paymentSheetViewState
         
     }
     
@@ -69,7 +72,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
         switch(paymentNetwork) {
         case .amex:
             return .JCB
-        
+            
         case .bancomat:
             if #available(macOS 12.0, *) {
                 return .bancomat
@@ -77,7 +80,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
                 // Fallback on earlier versions
                 return nil
             }
-        
+            
         case .bancontact:
             if #available(macOS 12.0, *) {
                 return .bancomat
@@ -85,13 +88,13 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
                 // Fallback on earlier versions
                 return nil
             }
-        
+            
         case .cartesBancaires:
             return .cartesBancaires
-        
+            
         case .chinaUnionPay:
             return .chinaUnionPay
-        
+            
         case .dankort:
             if #available(macOS 12.1, *) {
                 return .dankort
@@ -99,37 +102,37 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
                 // Fallback on earlier versions
                 return nil
             }
-        
+            
         case .discover:
             return .discover
-        
+            
         case .eftpos:
             return .eftpos
-        
+            
         case .electron:
             return .electron
-        
+            
         case .elo:
             return .elo
-        
+            
         case .idCredit:
             return .idCredit
-        
+            
         case .interac:
             return .interac
-        
+            
         case .JCB:
             return .JCB
-        
+            
         case .mada:
             return .mada
-        
+            
         case .maestro:
             return .maestro
-        
+            
         case  .masterCard:
             return .masterCard
-        
+            
         case .mir:
             if #available(macOS 11.5, *) {
                 return .mir
@@ -137,28 +140,28 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
                 // Fallback on earlier versions
                 return nil
             }
-        
+            
         case .privateLabel:
             return .privateLabel
-        
+            
         case .quicPay:
             return .quicPay
-        
+            
         case .suica:
             return .suica
-        
+            
         case .visa:
             return .visa
-        
+            
         case .vPay:
             return .vPay
-        
+            
         case .barcode:
             return .barcode
-        
+            
         case .girocard:
             return .girocard
-        
+            
         case .waon:
             if #available(macOS 12.0, *) {
                 return .waon
@@ -166,7 +169,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
                 // Fallback on earlier versions
                 return nil
             }
-        
+            
         case .nanaco:
             if #available(macOS 12.0, *) {
                 return .nanaco
@@ -188,10 +191,11 @@ extension FusionPaymentsManager:   PKPaymentAuthorizationViewControllerDelegate 
         //dismiss(animated: true, completion: nil)
         print("payment finished")
 #if os(iOS)
-        UIApplication.shared.delegate?.window??.rootViewController?.dismiss(
+        controller.dismiss(
             animated: true, completion: nil)
         
         completionHandler?(.FAILED, nil)
+        paymentSheetViewState(.PAYMENT_SHEET_CLOSED)
         
 #endif
     }

@@ -10,13 +10,19 @@ import Foundation
 public protocol FusionPaymentsManagerProtocol  {
     init(paymentRequest: PaymentRequest)
     
-    func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus, PaymentError?) -> Void )
+    func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus, PaymentError?) -> Void, paymentSheetViewState: @escaping (PaymentSheetViewState) -> Void )
 }
 
 public enum PaymentStatus {
     case SUCCESS
     
     case FAILED
+}
+
+public enum PaymentSheetViewState {
+    case PAYMENT_SHEET_OPENED
+    
+    case PAYMENT_SHEET_CLOSED
 }
 
 public enum PaymentError {
@@ -34,28 +40,28 @@ public enum PaymentError {
     case UNKNOWN_ERROR
     
     public var description:String {
-                switch self {
-                
-                case .BILLING_CONTACT_INVALID_ERROR:
-                    return "Billing Contact information is invalid."
-                    
-                case .SHIPPING_CONTACT_INVALID_ERROR:
-                    return "Shipping Contact information is invalid."
-                    
-                case .SHIPPING_CONTACT_INSERVICEABLE_ERROR:
-                    return "The shipping contact address is inserviceable."
-                    
-                case .AUTHORIZATION_ERROR:
-                    return "Authorization error occurred."
-                    
-                case .UNSUPPORTED_PAYMENT_NETWORK:
-                    return "The payment is not supported by the given payment networks"
-                    
-                case .UNKNOWN_ERROR:
-                    return "Unknown error occurred."
-                    
-                }
-            }
+        switch self {
+            
+        case .BILLING_CONTACT_INVALID_ERROR:
+            return "Billing Contact information is invalid."
+            
+        case .SHIPPING_CONTACT_INVALID_ERROR:
+            return "Shipping Contact information is invalid."
+            
+        case .SHIPPING_CONTACT_INSERVICEABLE_ERROR:
+            return "The shipping contact address is inserviceable."
+            
+        case .AUTHORIZATION_ERROR:
+            return "Authorization error occurred."
+            
+        case .UNSUPPORTED_PAYMENT_NETWORK:
+            return "The payment is not supported by the given payment networks"
+            
+        case .UNKNOWN_ERROR:
+            return "Unknown error occurred."
+            
+        }
+    }
 }
 
 
