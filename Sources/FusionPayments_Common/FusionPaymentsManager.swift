@@ -8,8 +8,15 @@
 import Foundation
 
 public protocol FusionPaymentsManagerProtocol  {
+    init()
     
-    func initiatePayment( paymentRequest: PaymentRequest, completion: @escaping (Int) -> Void )
+    func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus) -> Void )
+}
+
+public enum PaymentStatus {
+    case SUCCESS
+    
+    case FAILED
 }
 
 

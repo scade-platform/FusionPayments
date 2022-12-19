@@ -12,12 +12,15 @@ import FusionPayments_Common
 @available(macOS 11.0, *)
 public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
     
+    required public override init(){
+        
+    }
     
-    var completionHandler: ((Int) -> Void)?
+    var completionHandler: ((PaymentStatus) -> Void)?
     
     
     
-    public func initiatePayment( paymentRequest: PaymentRequest, completion: @escaping (Int) -> Void ) {
+    public func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus) -> Void ) {
        
         
             let paymentItem = PKPaymentSummaryItem.init(
@@ -50,7 +53,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
               print("error: unable to make apple pay transaction")
             }
         
-        completionHandler = completion
+        completionHandler = paymentStatus
         
     }
     
@@ -69,7 +72,7 @@ extension FusionPaymentsManager:   PKPaymentAuthorizationViewControllerDelegate 
           UIApplication.shared.delegate?.window??.rootViewController?.dismiss(
             animated: true, completion: nil)
 
-            completionHandler?(0)
+          completionHandler?(.FAILED)
 
           #endif
       }
@@ -86,7 +89,7 @@ extension FusionPaymentsManager:   PKPaymentAuthorizationViewControllerDelegate 
 
         // print(completion)
         print("payment done")
-          completionHandler?(1)
+          completionHandler?(.SUCCESS)
 
       }
 
