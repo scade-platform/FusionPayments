@@ -9,7 +9,7 @@ import Foundation
 
 public protocol FusionPaymentsManagerProtocol  {
     
-    func intiatePayment( paymentRequest: PaymentRequest, completion: @escaping (Int) -> Void )
+    func initiatePayment( paymentRequest: PaymentRequest, completion: @escaping (Int) -> Void )
 }
 
 

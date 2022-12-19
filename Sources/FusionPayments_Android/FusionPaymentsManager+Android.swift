@@ -7,7 +7,9 @@
 
 import Foundation
 
-public protocol FusionPaymentsManagerProtocol {
+public class FusionPaymentManager: FusionPaymentsManagerProtocol {
     
-    init()
+    public init() {
+        
+    }
 }
