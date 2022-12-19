@@ -13,7 +13,7 @@ public protocol FusionPaymentsManagerProtocol  {
     /*
      * @property initiatePayment
      *
-     * @discussion request payment(apple pay & gpay)
+     * @discussion request payment(Apple/Google pay)
      *             paymentRequest is passed as input parameter
      *
      * @param paymentRequest: passed as input parameter
@@ -32,9 +32,9 @@ public enum PaymentStatus {
 }
 
 public enum PaymentSheetViewState {
-    case PAYMENT_SHEET_OPENED // Apple or Google payment sheet is in the opened state
+    case PAYMENT_SHEET_OPENED // Apple/Google payment sheet is in the opened state
     
-    case PAYMENT_SHEET_CLOSED // Apple or Google payment sheet is in the closed state
+    case PAYMENT_SHEET_CLOSED // Apple/Google payment sheet is in the closed state
 }
 
 public enum PaymentError {
