@@ -1,3 +1,4 @@
 # FusionPayments
 
-A description of this package.
+### FusionPayments supports cross-platform payments from the Apple-pay & Google-pay.
+
