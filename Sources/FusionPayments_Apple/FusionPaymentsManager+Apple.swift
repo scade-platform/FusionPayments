@@ -12,8 +12,10 @@ import FusionPayments_Common
 @available(macOS 11.0, *)
 public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
     
-    required public override init(){
-        
+    private var paymentRequest: PaymentRequest
+    
+    required public init(paymentRequest: PaymentRequest){
+        self.paymentRequest = paymentRequest
     }
     
     var completionHandler: ((PaymentStatus, PaymentError?) -> Void)?
@@ -22,9 +24,11 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
     
     public func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus, PaymentError?) -> Void ) {
         
+        let paymentLabel:String = paymentRequest.paymentSummaryItem.label!
+        let paymentAmount:NSDecimalNumber = paymentRequest.paymentSummaryItem.amount
         
-        let paymentItem = PKPaymentSummaryItem.init(
-            label: "lable", amount: NSDecimalNumber(value: 33))
+        let paymentItem = PKPaymentSummaryItem(
+            label: paymentLabel, amount: paymentAmount)
         
         let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
         
@@ -58,6 +62,118 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
         
     }
     
+    
+    public func getPKPaymentNetwork(paymentNetwork: PaymentNetwork) -> PKPaymentNetwork? {
+        switch(paymentNetwork) {
+        case .amex:
+            return .JCB
+        
+        case .bancomat:
+            if #available(macOS 12.0, *) {
+                return .bancomat
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
+        
+        case .bancontact:
+            if #available(macOS 12.0, *) {
+                return .bancomat
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
+        
+        case .cartesBancaires:
+            return .cartesBancaires
+        
+        case .chinaUnionPay:
+            return .chinaUnionPay
+        
+        case .dankort:
+            if #available(macOS 12.1, *) {
+                return .dankort
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
+        
+        case .discover:
+            return .discover
+        
+        case .eftpos:
+            return .eftpos
+        
+        case .electron:
+            return .electron
+        
+        case .elo:
+            return .elo
+        
+        case .idCredit:
+            return .idCredit
+        
+        case .interac:
+            return .interac
+        
+        case .JCB:
+            return .JCB
+        
+        case .mada:
+            return .mada
+        
+        case .maestro:
+            return .maestro
+        
+        case  .masterCard:
+            return .masterCard
+        
+        case .mir:
+            if #available(macOS 11.5, *) {
+                return .mir
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
+        
+        case .privateLabel:
+            return .privateLabel
+        
+        case .quicPay:
+            return .quicPay
+        
+        case .suica:
+            return .suica
+        
+        case .visa:
+            return .visa
+        
+        case .vPay:
+            return .vPay
+        
+        case .barcode:
+            return .barcode
+        
+        case .girocard:
+            return .girocard
+        
+        case .waon:
+            if #available(macOS 12.0, *) {
+                return .waon
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
+        
+        case .nanaco:
+            if #available(macOS 12.0, *) {
+                return .nanaco
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
+        }
+    }
     
 }
 

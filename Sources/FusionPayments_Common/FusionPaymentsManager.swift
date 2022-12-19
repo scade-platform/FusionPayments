@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol FusionPaymentsManagerProtocol  {
-    init()
+    init(paymentRequest: PaymentRequest)
     
     func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus, PaymentError?) -> Void )
 }
