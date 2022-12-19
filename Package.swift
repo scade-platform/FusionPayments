@@ -33,9 +33,6 @@ let package = Package(
             dependencies: [
                 .target(name: "FusionPayments_Common"),
             ]
-        ),
-        .testTarget(
-            name: "FusionPaymentsTests",
-            dependencies: ["FusionPayments"]),
+        )
     ]
 )

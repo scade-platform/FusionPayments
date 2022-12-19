@@ -11,6 +11,8 @@ import FusionPayments_Common
 
 @available(macOS 11.0, *)
 public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
+
+    
     
     
     
@@ -18,7 +20,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
     
     
     
-    public func intiatePayment( completion: @escaping (Int) -> Void ) {
+    public func intiatePayment( paymentRequest: PaymentRequest, completion: @escaping (Int) -> Void ) {
        
         
             let paymentItem = PKPaymentSummaryItem.init(
