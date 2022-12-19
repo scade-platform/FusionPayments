@@ -10,35 +10,78 @@ import Foundation
 public protocol FusionPaymentsManagerProtocol  {
     init(paymentRequest: PaymentRequest)
     
+    /*
+     * @property initiatePayment
+     *
+     * @discussion request payment(apple pay & gpay)
+     *             paymentRequest is passed as input parameter
+     *
+     * @param paymentRequest: passed as input parameter
+     *        paymentStatus: contains the payment result
+     *        paymentSheetViewState: contains the current state of the payment-sheet
+     *
+     */
     func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus, PaymentError?) -> Void, paymentSheetViewState: @escaping (PaymentSheetViewState) -> Void )
 }
 
+// PaymentStatus : returns the payment result
 public enum PaymentStatus {
-    case SUCCESS
+    case SUCCESS // Successful Payment
     
-    case FAILED
+    case FAILED // payment failure
 }
 
 public enum PaymentSheetViewState {
-    case PAYMENT_SHEET_OPENED
+    case PAYMENT_SHEET_OPENED // Apple or Google payment sheet is in the opened state
     
-    case PAYMENT_SHEET_CLOSED
+    case PAYMENT_SHEET_CLOSED // Apple or Google payment sheet is in the closed state
 }
 
 public enum PaymentError {
     
+    /*
+     * @property BILLING_CONTACT_INVALID_ERROR
+     *
+     * @discussion The billing contact information in the Apple/Google pay is invalid.
+     */
     case BILLING_CONTACT_INVALID_ERROR
     
+    /*
+     * @property SHIPPING_CONTACT_INVALID_ERROR
+     *
+     * @discussion The Shipping contact information for the requested payment is invalid.
+     */
     case SHIPPING_CONTACT_INVALID_ERROR
     
+    /*
+     * @property SHIPPING_CONTACT_INSERVICEABLE_ERROR
+     *
+     * @discussion The Shipping address for the requested payment is inserviceable.
+     */
     case SHIPPING_CONTACT_INSERVICEABLE_ERROR
     
+    /*
+     * @property AUTHORIZATION_ERROR
+     *
+     * @discussion The requested payment is not authorized.
+     */
     case AUTHORIZATION_ERROR
     
+    /*
+     * @property UNSUPPORTED_PAYMENT_NETWORK
+     *
+     * @discussion The Payment request for the given payment network is not supported.
+     */
     case UNSUPPORTED_PAYMENT_NETWORK
     
+    /*
+     * @property UNKNOWN_ERROR
+     *
+     * @discussion The requested payment is failed due to unknown error.
+     */
     case UNKNOWN_ERROR
     
+    // the brief description for the payment related errors.
     public var description:String {
         switch self {
             
