@@ -50,14 +50,11 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
                 completionHandler?(.FAILED, .AUTHORIZATION_ERROR)
                 return
             }
-            self.paymentVC = paymentVC
             paymentVC.delegate = self
+            self.paymentVC = paymentVC
 #if os(iOS)
             UIApplication.shared.delegate?.window??.rootViewController?.present(
                 paymentVC, animated: true, completion: nil)
-            
-           
-            
             paymentSheetViewState(.PAYMENT_SHEET_OPENED)
 #endif
             
