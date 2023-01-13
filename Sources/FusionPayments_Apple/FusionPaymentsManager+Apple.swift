@@ -23,6 +23,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
     private var completionHandler: ((PaymentStatus, PaymentError?) -> Void)?
     
     private var paymentSheetViewState: ((PaymentSheetViewState) -> Void)?
+    private var paymentVC: PKPaymentAuthorizationViewController!
     
     public func initiatePayment( paymentRequest: PaymentRequest, paymentStatus: @escaping (PaymentStatus, PaymentError?) -> Void, paymentSheetViewState: @escaping (PaymentSheetViewState) -> Void ) {
         
@@ -49,10 +50,13 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
                 completionHandler?(.FAILED, .AUTHORIZATION_ERROR)
                 return
             }
+            self.paymentVC = paymentVC
             paymentVC.delegate = self
 #if os(iOS)
             UIApplication.shared.delegate?.window??.rootViewController?.present(
                 paymentVC, animated: true, completion: nil)
+            
+           
             
             paymentSheetViewState(.PAYMENT_SHEET_OPENED)
 #endif
