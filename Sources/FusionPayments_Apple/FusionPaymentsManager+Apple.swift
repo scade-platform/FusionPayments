@@ -220,7 +220,7 @@ extension FusionPaymentsManager:   PKPaymentAuthorizationViewControllerDelegate 
             animated: true, completion: nil)
         
         completionHandler?(.FAILED, nil)
-        paymentSheetViewState(.PAYMENT_SHEET_CLOSED)
+        paymentSheetViewState!(.PAYMENT_SHEET_CLOSED)
         
 #endif
     }
