@@ -70,116 +70,140 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
     
     
     public func getPKPaymentNetwork(paymentNetwork: PaymentNetwork) -> PKPaymentNetwork? {
+        var iOSPaymentNetwork: PKPaymentNetwork?
         switch(paymentNetwork) {
         case .amex:
-            return .JCB
+            iOSPaymentNetwork =  .amex
             
         case .bancomat:
-            if #available(macOS 12.0, *) {
-                return .bancomat
+            if #available(iOS 16.0, macOS 12.0, *) {
+                iOSPaymentNetwork =  .bancomat
             } else {
                 // Fallback on earlier versions
                 return nil
             }
             
         case .bancontact:
-            if #available(macOS 12.0, *) {
-                return .bancomat
+            if #available(iOS 16.0, macOS 12.0, *) {
+                iOSPaymentNetwork =  .bancontact
             } else {
                 // Fallback on earlier versions
                 return nil
             }
             
         case .cartesBancaires:
-            return .cartesBancaires
+            iOSPaymentNetwork =  .cartesBancaires
             
         case .chinaUnionPay:
-            return .chinaUnionPay
+            iOSPaymentNetwork = .chinaUnionPay
             
         case .dankort:
-            if #available(macOS 12.1, *) {
-                return .dankort
+            if #available(iOS 15.1, macOS 12.1, *) {
+                iOSPaymentNetwork = .dankort
             } else {
                 // Fallback on earlier versions
                 return nil
             }
             
         case .discover:
-            return .discover
+            iOSPaymentNetwork = .discover
             
         case .eftpos:
-            return .eftpos
+            iOSPaymentNetwork = .eftpos
             
         case .electron:
-            return .electron
+            iOSPaymentNetwork = .electron
             
         case .elo:
-            return .elo
+            if #available(iOS 12.1.1, *) {
+                iOSPaymentNetwork = .elo
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
             
         case .idCredit:
-            return .idCredit
+            iOSPaymentNetwork = .idCredit
             
         case .interac:
-            return .interac
+            iOSPaymentNetwork = .interac
             
         case .JCB:
-            return .JCB
+            iOSPaymentNetwork = .JCB
             
         case .mada:
-            return .mada
+            if #available(iOS 12.1.1, *) {
+                iOSPaymentNetwork = .mada
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
             
         case .maestro:
-            return .maestro
+            iOSPaymentNetwork = .maestro
             
         case  .masterCard:
-            return .masterCard
+            iOSPaymentNetwork = .masterCard
             
         case .mir:
-            if #available(macOS 11.5, *) {
-                return .mir
+            if #available(iOS 14.5, macOS 11.5, *) {
+                iOSPaymentNetwork = .mir
             } else {
                 // Fallback on earlier versions
                 return nil
             }
             
         case .privateLabel:
-            return .privateLabel
+            iOSPaymentNetwork = .privateLabel
             
         case .quicPay:
-            return .quicPay
+            iOSPaymentNetwork = .quicPay
             
         case .suica:
-            return .suica
+            iOSPaymentNetwork = .suica
             
         case .visa:
-            return .visa
+            iOSPaymentNetwork = .visa
             
         case .vPay:
-            return .vPay
+            iOSPaymentNetwork = .vPay
             
         case .barcode:
-            return .barcode
+            if #available(iOS 14.0, *) {
+                iOSPaymentNetwork = .barcode
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
             
         case .girocard:
-            return .girocard
+            if #available(iOS 14.0, *) {
+                iOSPaymentNetwork = .girocard
+            } else {
+                // Fallback on earlier versions
+                return nil
+            }
             
         case .waon:
-            if #available(macOS 12.0, *) {
-                return .waon
+            if #available(iOS 15.0, macOS 12.0, *) {
+                iOSPaymentNetwork = .waon
             } else {
                 // Fallback on earlier versions
                 return nil
             }
             
         case .nanaco:
-            if #available(macOS 12.0, *) {
-                return .nanaco
+            if #available(iOS 15.0, macOS 12.0, *) {
+                iOSPaymentNetwork = .nanaco
             } else {
                 // Fallback on earlier versions
                 return nil
             }
         }
+        return iOSPaymentNetwork
+        
     }
+    
     
 }
 
