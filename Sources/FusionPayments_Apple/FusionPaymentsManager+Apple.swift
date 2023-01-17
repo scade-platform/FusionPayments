@@ -34,8 +34,9 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
             label: paymentLabel, amount: paymentAmount)
         
         // cast here PaymentNetworks -> PKPaymentNetworks
-        let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
+        let paymentNetworks = getPaymentNetworks(paymentNetworks: paymentRequest.supportedNetworks)
         
+        // Using PassKit methods to intiate the Apple Pay transaction
         if PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) {
             let request = PKPaymentRequest()
             request.currencyCode = paymentRequest.currencyCode  // 1
@@ -46,7 +47,7 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
             request.paymentSummaryItems = [paymentItem]  // 6
             
             guard let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: request) else {
-                print("unable to present apple pay authorization: error")
+                print("Unable to present Apple Pay authorization dialog")
                 completionHandler?(.FAILED, .AUTHORIZATION_ERROR)
                 return
             }
@@ -60,13 +61,24 @@ public class FusionPaymentsManager: NSObject, FusionPaymentsManagerProtocol {
             
         } else {
             // displayDefaultAlert(title: "Error", message: "Unable to make Apple Pay transaction.")
-            print("error: unable to make apple pay transaction")
+            print("Unable to make Apple Pay transaction!")
             completionHandler?(.FAILED, .UNSUPPORTED_PAYMENT_NETWORK)
         }
         
         completionHandler = paymentStatus
         self.paymentSheetViewState = paymentSheetViewState
         
+    }
+    
+    public func getPaymentNetworks(paymentNetworks: [PaymentNetwork]) -> [PKPaymentNetwork] {
+        var pkPaymentNetworks:[PKPaymentNetwork] = []
+        for paymentNetwork in paymentNetworks {
+            let pkPaymentNetwork = getPKPaymentNetwork(paymentNetwork: paymentNetwork)
+            if pkPaymentNetwork != nil {
+                pkPaymentNetworks.append(pkPaymentNetwork!)
+            }
+        }
+        return pkPaymentNetworks
     }
     
     
@@ -215,12 +227,9 @@ extension FusionPaymentsManager:   PKPaymentAuthorizationViewControllerDelegate 
     ) {
         //controller.dismiss(animated: true, completion: nil)
         //dismiss(animated: true, completion: nil)
-        print("payment finished")
 #if os(iOS)
         controller.dismiss(
             animated: true, completion: nil)
-        
-        completionHandler?(.FAILED, nil)
         paymentSheetViewState!(.PAYMENT_SHEET_CLOSED)
         
 #endif
@@ -232,8 +241,6 @@ extension FusionPaymentsManager:   PKPaymentAuthorizationViewControllerDelegate 
     ) {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
         print(payment)
-        
-        print("payment done")
         completionHandler?(.SUCCESS, nil)
         
     }
