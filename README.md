@@ -3,7 +3,7 @@
 
 
 
-![alt_text](images/image.gif "image_tooltip")
+![image_gif](images/image.gif)
 
 
 ### Add the FusionPayments library: 
