@@ -9,7 +9,7 @@
 
 ### Add the FusionPayments library: 
 
-#### Package.swift
+#### `Package.swift`
 
 
 ```swift
@@ -38,7 +38,7 @@
 
 ### Declare FusionPayments Manager:
 
-#### main.page.swift
+#### `main.page.swift`
 
 
 ```swift
@@ -65,7 +65,7 @@ let pNetworks: [PaymentNetwork] = [PaymentNetwork.amex, .visa, .masterCard]
 ```
 
 
-### Initialize FusionPaymentsManager with PaymentRequest: 
+### Initialize `FusionPaymentsManager` with `PaymentRequest`: 
 
 
 ```swift
